@@ -3,16 +3,80 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Block Dodger</title>
-<style>
-  html, body { margin: 0; height: 100%; overflow: hidden; background: #11141b; }
-  #game { position: fixed; inset: 0; width: 100%; height: 100%; display: block; touch-action: none; }
-  /* Read aloud, never shown: the status line screen readers announce. */
-  #status { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
-</style>
+<title>VENTARA BAY — a sun-soaked coastal open-world crime game</title>
+<link rel="stylesheet" href="./game.css">
+<script type="importmap">
+{ "imports": { "three": "./vendor/three.module.min.js" } }
+</script>
 </head>
 <body>
-<canvas id="game" aria-label="Block Dodger: move the paddle left and right to dodge falling blocks and catch coins"></canvas>
+<div id="app"></div>
+
+<!-- In-game HUD -->
+<div id="hud" class="hidden">
+  <div id="top-left">
+    <div id="stars" aria-label="wanted level">☆☆☆☆☆</div>
+    <div id="cash-row"><span id="cash-label">CASH</span> <span id="cash">$250</span></div>
+    <div id="health-bar"><div id="health-fill"></div><span id="health-num">100</span></div>
+    <div id="weapon">FISTS</div>
+  </div>
+  <div id="top-right">
+    <div id="clock">18:00</div>
+    <div id="district">Neon Strip</div>
+  </div>
+  <div id="mission-box">
+    <div id="mission-name">The Pickup</div>
+    <div id="objective">Reach the Marina pickup</div>
+  </div>
+  <canvas id="minimap" width="200" height="200"></canvas>
+  <div id="speed">0 km/h</div>
+  <div id="hint">WASD move &nbsp;·&nbsp; E enter car &nbsp;·&nbsp; 1 fists / 2 pistol &nbsp;·&nbsp; R reload &nbsp;·&nbsp; P pause</div>
+  <div id="crosshair">+</div>
+  <div id="toast"></div>
+  <div id="banner"><div id="banner-title"></div><div id="banner-sub"></div></div>
+  <div id="vignette"></div>
+</div>
+
+<!-- Start screen -->
+<div id="menu" class="overlay show">
+  <div class="panel">
+    <div class="kicker">VENTARA BAY PRESENTS</div>
+    <h1>VENTARA<br>BAY</h1>
+    <p class="tagline">A sun-soaked coastal open world. Six story missions. Traffic, cops,
+    and every car yours for the taking.</p>
+    <p class="cast">Jax Corso — getaway driver &nbsp;·&nbsp; Lena Voss — fixer &nbsp;·&nbsp; Dario &amp; Kiki — crew</p>
+    <button id="btn-new" class="big">NEW GAME</button>
+    <button id="btn-continue" class="big ghost">CONTINUE</button>
+    <div class="controls">
+      <span><b>WASD</b> move / drive</span><span><b>Mouse drag</b> camera</span>
+      <span><b>E</b> enter / steal car</span><span><b>Click</b> punch / shoot</span>
+      <span><b>1 / 2</b> fists / pistol</span><span><b>R</b> reload</span>
+      <span><b>Shift</b> sprint</span><span><b>P</b> pause</span>
+    </div>
+    <p class="foot">An original game. No Rockstar content. Best played in desktop Chrome.</p>
+  </div>
+</div>
+
+<!-- Pause screen -->
+<div id="pause" class="overlay">
+  <div class="panel">
+    <h2>PAUSED</h2>
+    <button id="btn-resume" class="big">RESUME</button>
+    <button id="btn-save-quit" class="big ghost">SAVE &amp; QUIT TO MENU</button>
+    <button id="btn-restart" class="big ghost">RESTART MISSION</button>
+  </div>
+</div>
+
+<!-- Busted / wasted screen -->
+<div id="end-screen" class="overlay">
+  <div class="panel">
+    <h2 id="end-title">BUSTED</h2>
+    <p id="end-sub" class="tagline"></p>
+    <button id="btn-retry" class="big">TRY AGAIN</button>
+    <button id="btn-menu" class="big ghost">BACK TO MENU</button>
+  </div>
+</div>
+
 <p id="status" role="status" aria-live="polite"></p>
 <script type="module" src="./src/main.js"></script>
 </body>
