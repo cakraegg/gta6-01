@@ -126,6 +126,7 @@ export function createCity(scene) {
   scene.fog = new THREE.Fog(0x4a2a63, 160, 620);
   const hemi = new THREE.HemisphereLight(0x9a7fd0, 0xf0b070, 1.15);
   scene.add(hemi);
+  city.hemi = hemi; // staged daylight shots retune the sky light (shots.js)
   const sun = new THREE.DirectionalLight(0xff9a4d, 2.1);
   sun.position.set(-180, 90, 120);
   sun.castShadow = true;
